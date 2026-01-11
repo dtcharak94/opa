@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create Order</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <!-- Web Component -->
+    <script type="module" src="/src/components/template-loader.js"></script>
+    <script type="module" src="/src/components/order-form.js"></script>
+
+    <!-- Page logic -->
+    <script type="module" src="/src/js/order.js"></script>
+  </head>
+  <body class="bg-slate-950 text-slate-100">
+    <div
+      class="max-w-xl mx-auto mt-16 p-6 bg-slate-900 rounded-2xl"
+      x-data="orderPage()"
+    >
+      <h1 class="text-xl font-bold mb-6" x-text="modeTitle"></h1>
+
+      <order-form
+        x-ref="form"
+        :mode="mode"
+        @submit="save($event.detail)"
+      ></order-form>
+    </div>
+  </body>
+</html>

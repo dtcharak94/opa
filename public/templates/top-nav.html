@@ -1,0 +1,67 @@
+<template id="top-nav-template">
+  <header
+    x-data="{ open: false, lang: 'EN' }"
+    class="bg-slate-950 border-b border-slate-800"
+  >
+    <nav class="max-w-7xl mx-auto px-4">
+      <div class="flex h-14 items-center justify-between">
+
+        <!-- LEFT -->
+        <div class="flex items-center gap-6">
+          <button
+            class="lg:hidden text-slate-300"
+            @click="open = !open"
+            aria-label="Toggle menu"
+          >
+            ☰
+          </button>
+
+          <a href="/" class="text-lg font-bold text-white">
+            Opa
+          </a>
+
+          <div class="hidden lg:flex gap-6">
+            <a href="/restaurants" class="nav-link">Restaurants</a>
+            <a href="/farmers" class="nav-link">Farmers</a>
+            <a href="/real-estate" class="nav-link">Real Estate</a>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="hidden lg:flex items-center gap-6">
+          <button
+            class="text-sm text-slate-300 hover:text-white"
+            @click="lang = lang === 'EN' ? 'BG' : 'EN'"
+          >
+            <span x-text="lang"></span>
+          </button>
+
+          <a href="/login" class="btn-primary">Login</a>
+        </div>
+      </div>
+
+      <!-- MOBILE MENU -->
+      <div
+        x-show="open"
+        x-transition
+        @click.outside="open = false"
+        class="lg:hidden mt-2 rounded-xl bg-slate-900 p-4 space-y-2"
+      >
+        <a href="/restaurants" class="mobile-link">Restaurants</a>
+        <a href="/farmers" class="mobile-link">Farmers</a>
+        <a href="/real-estate" class="mobile-link">Real Estate</a>
+
+        <hr class="border-slate-700" />
+
+        <a href="/login" class="mobile-link font-semibold">Login</a>
+
+        <button
+          class="mobile-link text-left"
+          @click="lang = lang === 'EN' ? 'BG' : 'EN'"
+        >
+          Language: <span x-text="lang"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+</template>

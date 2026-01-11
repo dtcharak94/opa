@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-brand: #10B981;
+}
+
+@layer components {
+  .nav-link {
+    @apply text-slate-300 hover:text-white text-sm font-medium;
+  }
+  .mobile-link {
+    @apply block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-800;
+  }
+  .btn-primary {
+    @apply bg-bg-brand text-slate-900 px-4 py-2 rounded-lg text-sm font-semibold;
+  }
+}

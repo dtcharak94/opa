@@ -1,0 +1,10 @@
+<div class="max-w-2xl mx-auto mt-16 p-6 bg-slate-900 rounded-2xl" x-data="customerPage()">
+  <h1 class="text-xl font-bold mb-6" x-text="modeTitle"></h1>
+
+  <!-- Mode can be create, edit, or view -->
+  <customer-form
+    x-ref="form"
+    :mode="mode"
+    @submit="save($event.detail)"
+  ></customer-form>
+</div>

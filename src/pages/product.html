@@ -1,0 +1,9 @@
+<div class="max-w-xl mx-auto mt-16 p-6 bg-slate-900 rounded-2xl" x-data="productPage()">
+  <h1 class="text-xl font-bold mb-6" x-text="modeTitle"></h1>
+
+  <product-form
+    x-ref="form"
+    :mode="mode"
+    @submit="save($event.detail)"
+  ></product-form>
+</div>
