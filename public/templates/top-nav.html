@@ -1,42 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigation with Sub-menus</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+
 <template id="top-nav-template">
   <header
-    x-data="{ open: false, lang: 'EN' }"
-    class="bg-slate-950 border-b border-slate-800"
+    x-data="{ 
+      open: false, 
+      lang: 'EN',
+      activeSection: null,
+      subMenus: {
+        restaurants: ['Home', 'Lunch', 'Brunch', 'Takeout'],
+        farmers: ['Markets', 'Products', 'Suppliers', 'About'],
+        'real-estate': ['Properties', 'Rent', 'Buy', 'Contact'],
+        login: ['Home', 'My Profile', 'Settings']
+      }
+    }"
+    class="bg-green-600 border-b border-green-700"
   >
     <nav class="max-w-7xl mx-auto px-4">
-      <div class="flex h-14 items-center justify-between">
-
+      <!-- MAIN NAV (shown when no section is active) -->
+      <div x-show="activeSection === null" class="flex h-14 items-center justify-between">
         <!-- LEFT -->
         <div class="flex items-center gap-6">
           <button
-            class="lg:hidden text-slate-300"
+            class="lg:hidden text-white"
             @click="open = !open"
             aria-label="Toggle menu"
           >
             ☰
           </button>
-
-          <a href="/" class="text-lg font-bold text-white">
+          <a 
+            href="/" 
+            class="text-lg font-bold text-white"
+          >
             Opa
           </a>
-
+          
+          <!-- Desktop Main Nav -->
           <div class="hidden lg:flex gap-6">
-            <a href="/restaurants" class="nav-link">Restaurants</a>
-            <a href="/farmers" class="nav-link">Farmers</a>
-            <a href="/real-estate" class="nav-link">Real Estate</a>
+            <a 
+              href="/restaurants" 
+              class="nav-link text-white hover:text-green-200"
+              @click.prevent="activeSection = 'restaurants'"
+            >
+              Restaurants
+            </a>
+            <a 
+              href="/farmers" 
+              class="nav-link text-white hover:text-green-200"
+              @click.prevent="activeSection = 'farmers'"
+            >
+              Farmers
+            </a>
+            <a 
+              href="/real-estate" 
+              class="nav-link text-white hover:text-green-200"
+              @click.prevent="activeSection = 'real-estate'"
+            >
+              Real Estate
+            </a>
           </div>
         </div>
-
+        
         <!-- RIGHT -->
         <div class="hidden lg:flex items-center gap-6">
           <button
-            class="text-sm text-slate-300 hover:text-white"
+            class="text-sm text-white hover:text-green-200"
             @click="lang = lang === 'EN' ? 'BG' : 'EN'"
           >
-            <span x-text="lang"></span>
+            <span x-text="lang === 'EN' ? 'BG' : 'EN'"></span>
           </button>
+          <a
+            href="/login"
+            class="bg-white text-green-700 px-4 py-2 rounded-lg font-semibold hover:bg-green-100 transition"
+            @click.prevent="activeSection = 'login'"
+          >
+            Login
+          </a>
+        </div>
+      </div>
 
-          <a href="/login" class="btn-primary">Login</a>
+      <!-- SUB-MENU BAR (shown when section is active) -->
+      <div 
+        x-show="activeSection !== null"
+        x-transition
+        class="hidden lg:flex h-14 items-center justify-between"
+      >
+        <div class="flex items-center gap-1">
+          <a 
+            href="/" 
+            class="text-lg font-bold text-white hover:text-green-200 px-3 py-1"
+            @click.prevent="activeSection = null"
+          >
+            Opa
+          </a>
+          <span class="text-white">›</span>
+          <a 
+            :href="`/${activeSection}`" 
+            class="text-sm text-white hover:text-green-200 px-3 py-1 font-semibold"
+          >
+            Home
+          </a>
+          <template x-for="item in subMenus[activeSection]" :key="item">
+            <template x-if="item !== 'Home'">
+              <a 
+                :href="`/${activeSection}/${item.toLowerCase()}`" 
+                class="text-sm text-white hover:text-green-200 px-3 py-1"
+                x-text="item"
+              ></a>
+            </template>
+          </template>
+        </div>
+        
+        <div class="flex items-center gap-6">
+          <button
+            class="text-sm text-white hover:text-green-200"
+            @click="lang = lang === 'EN' ? 'BG' : 'EN'"
+          >
+            <span x-text="lang === 'EN' ? 'BG' : 'EN'"></span>
+          </button>
+          <a
+            href="/login"
+            class="text-sm text-white hover:text-green-200 font-semibold"
+            @click.prevent="activeSection = 'login'"
+          >
+            Login
+          </a>
         </div>
       </div>
 
@@ -45,23 +141,113 @@
         x-show="open"
         x-transition
         @click.outside="open = false"
-        class="lg:hidden mt-2 rounded-xl bg-slate-900 p-4 space-y-2"
+        class="lg:hidden mt-2 rounded-xl bg-green-700 p-4 space-y-2 text-white"
       >
-        <a href="/restaurants" class="mobile-link">Restaurants</a>
-        <a href="/farmers" class="mobile-link">Farmers</a>
-        <a href="/real-estate" class="mobile-link">Real Estate</a>
+        <div>
+          <button 
+            @click="activeSection = activeSection === 'restaurants' ? null : 'restaurants'"
+            class="w-full text-left mobile-link hover:text-green-200 flex justify-between items-center"
+          >
+            <span>Restaurants</span>
+            <span x-text="activeSection === 'restaurants' ? '−' : '+'"></span>
+          </button>
+          <div 
+            x-show="activeSection === 'restaurants'"
+            x-transition
+            class="ml-4 mt-2 space-y-2"
+          >
+            <a href="/restaurants" class="block text-sm hover:text-green-200">Home</a>
+            <a href="/restaurants/lunch" class="block text-sm hover:text-green-200">Lunch</a>
+            <a href="/restaurants/brunch" class="block text-sm hover:text-green-200">Brunch</a>
+            <a href="/restaurants/takeout" class="block text-sm hover:text-green-200">Takeout</a>
+          </div>
+        </div>
 
-        <hr class="border-slate-700" />
+        <div>
+          <button 
+            @click="activeSection = activeSection === 'farmers' ? null : 'farmers'"
+            class="w-full text-left mobile-link hover:text-green-200 flex justify-between items-center"
+          >
+            <span>Farmers</span>
+            <span x-text="activeSection === 'farmers' ? '−' : '+'"></span>
+          </button>
+          <div 
+            x-show="activeSection === 'farmers'"
+            x-transition
+            class="ml-4 mt-2 space-y-2"
+          >
+            <a href="/farmers" class="block text-sm hover:text-green-200">Home</a>
+            <a href="/farmers/markets" class="block text-sm hover:text-green-200">Markets</a>
+            <a href="/farmers/products" class="block text-sm hover:text-green-200">Products</a>
+            <a href="/farmers/suppliers" class="block text-sm hover:text-green-200">Suppliers</a>
+          </div>
+        </div>
 
-        <a href="/login" class="mobile-link font-semibold">Login</a>
+        <div>
+          <button 
+            @click="activeSection = activeSection === 'real-estate' ? null : 'real-estate'"
+            class="w-full text-left mobile-link hover:text-green-200 flex justify-between items-center"
+          >
+            <span>Real Estate</span>
+            <span x-text="activeSection === 'real-estate' ? '−' : '+'"></span>
+          </button>
+          <div 
+            x-show="activeSection === 'real-estate'"
+            x-transition
+            class="ml-4 mt-2 space-y-2"
+          >
+            <a href="/real-estate" class="block text-sm hover:text-green-200">Home</a>
+            <a href="/real-estate/properties" class="block text-sm hover:text-green-200">Properties</a>
+            <a href="/real-estate/rent" class="block text-sm hover:text-green-200">Rent</a>
+            <a href="/real-estate/buy" class="block text-sm hover:text-green-200">Buy</a>
+          </div>
+        </div>
+
+        <hr class="border-green-600" />
+        
+        <div>
+          <button 
+            @click="activeSection = activeSection === 'login' ? null : 'login'"
+            class="w-full text-left mobile-link hover:text-green-200 flex justify-between items-center font-semibold"
+          >
+            <span>Login</span>
+            <span x-text="activeSection === 'login' ? '−' : '+'"></span>
+          </button>
+          <div 
+            x-show="activeSection === 'login'"
+            x-transition
+            class="ml-4 mt-2 space-y-2"
+          >
+            <a href="/login" class="block text-sm hover:text-green-200">Home</a>
+            <a href="/login/profile" class="block text-sm hover:text-green-200">My Profile</a>
+            <a href="/login/settings" class="block text-sm hover:text-green-200">Settings</a>
+          </div>
+        </div>
 
         <button
-          class="mobile-link text-left"
+          class="mobile-link text-left hover:text-green-200"
           @click="lang = lang === 'EN' ? 'BG' : 'EN'"
         >
-          Language: <span x-text="lang"></span>
+          <span x-text="lang === 'EN' ? 'BG' : 'EN'"></span>
         </button>
       </div>
     </nav>
   </header>
 </template>
+
+<!-- Demo usage -->
+<div id="nav-container"></div>
+
+<main class="max-w-7xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold text-gray-900 mb-4">Navigation with Sub-menus</h1>
+  <p class="text-gray-600">Click on "Restaurants", "Farmers", or "Real Estate" to see their sub-menus appear below the main navigation.</p>
+</main>
+
+<script>
+  const template = document.getElementById('top-nav-template');
+  const container = document.getElementById('nav-container');
+  container.appendChild(template.content.cloneNode(true));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Information - Opa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+
+  <!-- Navigation -->
+  <header class="bg-green-600 border-b border-green-700">
+    <nav class="max-w-7xl mx-auto px-4">
+      <div class="flex h-14 items-center justify-between">
+        <a href="/" class="text-lg font-bold text-white">Opa</a>
+        <div class="flex items-center gap-4">
+          <a href="/customers/preferences" class="text-sm text-white hover:text-green-200">Preferences</a>
+          <a href="/dashboard" class="text-sm text-white hover:text-green-200">Dashboard</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Customer Info Form -->
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <div 
+      x-data="{ 
+        formData: {
+          firstName: '',
+          lastName: '',
+          address1: '',
+          address2: '',
+          town: '',
+          province: '',
+          postalCode: '',
+          phone: '',
+          email: '',
+          timezone: 'Europe/Sofia',
+          isPrimary: false,
+          allowCommunication: false
+        },
+        loading: false,
+        saved: false
+      }"
+      class="bg-white rounded-2xl shadow-lg p-8"
+    >
+      <!-- Header -->
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Customer Information</h1>
+        <p class="text-gray-600">Update your personal details and contact information</p>
+      </div>
+
+      <!-- Success Message -->
+      <div 
+        x-show="saved" 
+        x-transition
+        class="mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg"
+      >
+        ✓ Your information has been saved successfully
+      </div>
+
+      <!-- Form -->
+      <form @submit.prevent="handleSubmit" class="space-y-6">
+        
+        <!-- Personal Information Section -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b">Personal Information</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- First Name -->
+            <div>
+              <label for="firstName" class="block text-sm font-medium text-gray-700 mb-2">
+                First Name *
+              </label>
+              <input
+                type="text"
+                id="firstName"
+                x-model="formData.firstName"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
+                placeholder="John"
+              />
+            </div>
+
+            <!-- Last Name -->
+            <div>
+              <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">
+                Last Name *
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                x-model="formData.lastName"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
+                placeholder="Doe"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Address Section -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b">Address</h2>
+          
+          <div class="space-y-5">
+            <!-- Address Line 1 -->
+            <div>
+              <label for="address1" class="block text-sm font-medium text-gray-700 mb-2">
+                Address Line 1 *
+              </label>
+              <input
+                type="text"
+                id="address1"
+                x-model="formData.address1"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
+                placeholder="123 Main Street"
+              />
+            </div>
+
+            <!-- Address Line 2 -->
+            <div>
+              <label for="address2" class="block text-sm font-medium text-gray-700 mb-2">
+                Address Line 2
+              </label>
+              <input
+                type="text"
+                id="address2"
+                x-model="formData.address2"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
+                placeholder="Apartment, suite, etc. (optional)"
+              />
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <!-- Town -->
+              <div>
+                <label for="town" class="block text-sm font-medium text-gray-700 mb-2">
+                  Town *
+                </label>
+                <input
+                  type="text"
+                  id="town"
+                  x-model="formData.town"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
+                  placeholder="Sofia"
+                />
+              </div>
+
+              <!-- Province -->
+              <div>
+                <label for="province" class="block text-sm font-medium text-gray-700 mb-2">
+                  Province *
+                </label>
+                <input
+                  type="text"
+                  id="province"
+                  x-model="formData.province"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
+                  placeholder="Sofia-Capital"
+                />
+              </div>
+
+              <!-- Postal Code -->
+              <div>
+                <label for="postalCode" class="block text-sm font-medium text-gray-700 mb-2">
+                  Postal Code *
+                </label>
+                <input
+                  type="text"
+                  id="postalCode"
+                  x-model="formData.postalCode"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
+                  placeholder="1000"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Information Section -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b">Contact Information</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Phone -->
+            <div>
+              <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">
+                Phone Number *
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                x-model="formData.phone"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
+                placeholder="+359 123 456 789"
+              />
+            </div>
+
+            <!-- Email -->
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                Email Address *
+              </label>
+              <input
+                type="email"
+                id="email"
+                x-model="formData.email"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
+                placeholder="you@example.com"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Preferences Section -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b">Settings</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Timezone -->
+            <div>
+              <label for="timezone" class="block text-sm font-medium text-gray-700 mb-2">
+                Timezone *
+              </label>
+              <select
+                id="timezone"
+                x-model="formData.timezone"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
+              >
+                <option value="Europe/Sofia">Europe/Sofia (GMT+2)</option>
+                <option value="Europe/London">Europe/London (GMT+0)</option>
+                <option value="Europe/Paris">Europe/Paris (GMT+1)</option>
+                <option value="America/New_York">America/New York (GMT-5)</option>
+                <option value="America/Los_Angeles">America/Los Angeles (GMT-8)</option>
+                <option value="Asia/Tokyo">Asia/Tokyo (GMT+9)</option>
+              </select>
+            </div>
+
+            <!-- Link to Preferences -->
+            <div class="flex items-end">
+              <a 
+                href="/customers/preferences" 
+                class="inline-flex items-center text-green-600 hover:text-green-700 font-medium transition"
+              >
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                Manage Preferences
+              </a>
+            </div>
+          </div>
+
+          <!-- Checkboxes -->
+          <div class="mt-5 flex gap-6">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input 
+                type="checkbox" 
+                x-model="formData.isPrimary"
+                class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
+              />
+              <span class="text-sm font-medium text-gray-700">Primary Contact</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input 
+                type="checkbox" 
+                x-model="formData.allowCommunication"
+                class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
+              />
+              <span class="text-sm font-medium text-gray-700">Allow Communication</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-3 pt-6 border-t">
+          <button
+            type="button"
+            @click="window.location.href = '/dashboard'"
+            class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            :disabled="loading"
+            :class="loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-700'"
+            class="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg font-semibold transition"
+            x-text="loading ? 'Saving...' : 'Save Changes'"
+          >
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    function handleSubmit() {
+      this.loading = true;
+      this.saved = false;
+      
+      // Simulate API call
+      setTimeout(() => {
+        console.log('Customer info saved:', this.formData);
+        
+        // Show success message
+        this.saved = true;
+        this.loading = false;
+        
+        // Hide success message after 3 seconds
+        setTimeout(() => {
+          this.saved = false;
+        }, 3000);
+      }, 1000);
+    }
+  </script>
+
+</body>
+</html>

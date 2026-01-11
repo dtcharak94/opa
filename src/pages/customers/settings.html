@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Settings - Opa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+
+  <!-- Navigation -->
+  <header class="bg-green-600 border-b border-green-700">
+    <nav class="max-w-7xl mx-auto px-4">
+      <div class="flex h-14 items-center justify-between">
+        <a href="/" class="text-lg font-bold text-white">Opa</a>
+        <div class="flex items-center gap-4">
+          <a href="/customers/info" class="text-sm text-white hover:text-green-200">Customer Info</a>
+          <a href="/dashboard" class="text-sm text-white hover:text-green-200">Dashboard</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Customer Settings -->
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <div 
+      x-data="{ 
+        settings: {
+          menuNotifications: false,
+          language: 'EN',
+          sms: false,
+          viber: false,
+          email: false,
+          products: false,
+          land: false,
+          ads: false,
+          offers: false,
+          currentLocation: 'Sofia, Sofia-Capital, BG',
+          preferredLocation: 'Sofia'
+        },
+        loading: false,
+        saved: false
+      }"
+      class="bg-white rounded-2xl shadow-lg p-8"
+    >
+      <!-- Header -->
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Customer Settings</h1>
+        <p class="text-gray-600">Manage your preferences and notification settings</p>
+      </div>
+
+      <!-- Success Message -->
+      <div 
+        x-show="saved" 
+        x-transition
+        class="mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg"
+      >
+        ✓ Your settings have been saved successfully
+      </div>
+
+      <!-- Settings Form -->
+      <form @submit.prevent="handleSubmit" class="space-y-6">
+        
+        <!-- General Settings Section -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b">General Settings</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Language -->
+            <div>
+              <label for="language" class="block text-sm font-medium text-gray-700 mb-2">
+                Language
+              </label>
+              <select
+                id="language"
+                x-model="settings.language"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
+              >
+                <option value="EN">English</option>
+                <option value="BG">Български (Bulgarian)</option>
+              </select>
+            </div>
+
+            <!-- Menu Notifications -->
+            <div class="flex items-end">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  x-model="settings.menuNotifications"
+                  class="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+                />
+                <span class="text-sm font-medium text-gray-700">Menu Notifications</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Communication Channels Section -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b">Communication Channels</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <!-- SMS -->
+            <label class="flex items-center gap-2 cursor-pointer p-4 border border-gray-200 rounded-lg hover:border-green-300 transition">
+              <input 
+                type="checkbox" 
+                x-model="settings.sms"
+                class="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+              />
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                </svg>
+                <span class="text-sm font-medium text-gray-700">SMS</span>
+              </div>
+            </label>
+
+            <!-- Viber -->
+            <label class="flex items-center gap-2 cursor-pointer p-4 border border-gray-200 rounded-lg hover:border-green-300 transition">
+              <input 
+                type="checkbox" 
+                x-model="settings.viber"
+                class="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+              />
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                </svg>
+                <span class="text-sm font-medium text-gray-700">Viber</span>
+              </div>
+            </label>
+
+            <!-- Email -->
+            <label class="flex items-center gap-2 cursor-pointer p-4 border border-gray-200 rounded-lg hover:border-green-300 transition">
+              <input 
+                type="checkbox" 
+                x-model="settings.email"
+                class="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+              />
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                <span class="text-sm font-medium text-gray-700">Email</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Notification Preferences Section -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b">Notification Preferences</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Products -->
+            <label class="flex items-center gap-2 cursor-pointer p-4 border border-gray-200 rounded-lg hover:border-green-300 transition">
+              <input 
+                type="checkbox" 
+                x-model="settings.products"
+                class="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+              />
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+                <span class="text-sm font-medium text-gray-700">Products</span>
+              </div>
+            </label>
+
+            <!-- Land -->
+            <label class="flex items-center gap-2 cursor-pointer p-4 border border-gray-200 rounded-lg hover:border-green-300 transition">
+              <input 
+                type="checkbox" 
+                x-model="settings.land"
+                class="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+              />
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                <span class="text-sm font-medium text-gray-700">Land</span>
+              </div>
+            </label>
+
+            <!-- Ads -->
+            <label class="flex items-center gap-2 cursor-pointer p-4 border border-gray-200 rounded-lg hover:border-green-300 transition">
+              <input 
+                type="checkbox" 
+                x-model="settings.ads"
+                class="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+              />
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
+                </svg>
+                <span class="text-sm font-medium text-gray-700">Ads</span>
+              </div>
+            </label>
+
+            <!-- Offers -->
+            <label class="flex items-center gap-2 cursor-pointer p-4 border border-gray-200 rounded-lg hover:border-green-300 transition">
+              <input 
+                type="checkbox" 
+                x-model="settings.offers"
+                class="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+              />
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+                </svg>
+                <span class="text-sm font-medium text-gray-700">Offers</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Location Settings Section -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b">Location Settings</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Current Location (Display Only) -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Current Location
+              </label>
+              <div class="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-700 flex items-center gap-2">
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <span x-text="settings.currentLocation"></span>
+              </div>
+              <p class="text-xs text-gray-500 mt-1">Detected automatically</p>
+            </div>
+
+            <!-- Preferred Location -->
+            <div>
+              <label for="preferredLocation" class="block text-sm font-medium text-gray-700 mb-2">
+                Preferred Location
+              </label>
+              <select
+                id="preferredLocation"
+                x-model="settings.preferredLocation"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
+              >
+                <option value="Sofia">Sofia</option>
+                <option value="Burgas">Burgas</option>
+                <option value="Plovdiv">Plovdiv</option>
+              </select>
+              <p class="text-xs text-gray-500 mt-1">Select your preferred city</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-3 pt-6 border-t">
+          <button
+            type="button"
+            @click="window.location.href = '/dashboard'"
+            class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            :disabled="loading"
+            :class="loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-700'"
+            class="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg font-semibold transition"
+            x-text="loading ? 'Saving...' : 'Save Settings'"
+          >
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    function handleSubmit() {
+      this.loading = true;
+      this.saved = false;
+      
+      // Simulate API call
+      setTimeout(() => {
+        console.log('Settings saved:', this.settings);
+        
+        // Show success message
+        this.saved = true;
+        this.loading = false;
+        
+        // Hide success message after 3 seconds
+        setTimeout(() => {
+          this.saved = false;
+        }, 3000);
+      }, 1000);
+    }
+  </script>
+
+</body>
+</html>
