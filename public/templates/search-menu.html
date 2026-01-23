@@ -1,0 +1,92 @@
+<!-- Search Menu Root -->
+<template id="search-menu-template">
+  <div class="menu-container">
+    <div class="menu-header">
+      <h1 class="menu-title">Search Menu</h1>
+    </div>
+
+    <!-- Search Widget -->
+    <div class="form-card">
+      <div class="search-grid">
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" data-field="location" placeholder="e.g., New York">
+        </div>
+
+        <div class="form-group">
+          <label>Restaurant</label>
+          <input type="text" data-field="restaurant">
+        </div>
+
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" data-field="date">
+        </div>
+
+        <div class="form-group">
+          <label>Appetizer</label>
+          <input type="text" data-field="appetizer">
+        </div>
+
+        <div class="form-group">
+          <label>Soup</label>
+          <input type="text" data-field="soup">
+        </div>
+
+        <div class="form-group">
+          <label>Main Dish</label>
+          <input type="text" data-field="main">
+        </div>
+
+        <div class="form-group">
+          <label>Dessert</label>
+          <input type="text" data-field="dessert">
+        </div>
+      </div>
+
+      <div class="search-actions">
+        <button data-action="search" class="btn-primary">Search</button>
+        <button data-action="clear" class="clear-btn">Clear All</button>
+      </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="search-results-section hidden" data-results-section>
+      <h2 class="menu-category-title">
+        Search Results
+      </h2>
+
+      <div class="text-sm text-slate-500 mb-4" data-results-count></div>
+
+      <div class="space-y-4" data-results></div>
+
+      <!-- Pagination -->
+      <div class="flex justify-center items-center gap-2 mt-4" data-pagination></div>
+
+      <!-- Back to top -->
+      <div class="text-center mt-8">
+        <button data-action="back-to-top" class="btn-back-top">
+          ↑ Back to top
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<!-- Single Result Card -->
+<template id="menu-result-template">
+  <div class="review-card">
+    <h3 data-restaurant></h3>
+    <p data-location></p>
+
+    <div class="menu-course"><b>Appetizer:</b> <span data-appetizer></span></div>
+    <div class="menu-course"><b>Soup:</b> <span data-soup></span></div>
+    <div class="menu-course"><b>Main:</b> <span data-main></span></div>
+    <div class="menu-course"><b>Dessert:</b> <span data-dessert></span></div>
+
+    <!-- Optional link to full menu page -->
+    <div class="mt-2">
+      <a data-link href="#" class="text-blue-600 hover:underline">View Menu</a>
+    </div>
+  </div>
+</template>

@@ -19,7 +19,8 @@
         restaurants: ['Home', 'Lunch', 'Brunch', 'Takeout'],
         farmers: ['Markets', 'Products', 'Suppliers', 'About'],
         'real-estate': ['Properties', 'Rent', 'Buy', 'Contact'],
-        login: ['Home', 'My Profile', 'Settings']
+        login: ['Home', 'My Profile', 'Settings', 'Business'],
+        business: ['Profile', 'Restaurants', 'Farmers', 'Real Estate', 'Settings']
       }
     }"
     class="bg-green-600 border-b border-green-700"
@@ -110,11 +111,20 @@
           </a>
           <template x-for="item in subMenus[activeSection]" :key="item">
             <template x-if="item !== 'Home'">
-              <a 
-                :href="`/${activeSection}/${item.toLowerCase()}`" 
-                class="text-sm text-white hover:text-green-200 px-3 py-1"
-                x-text="item"
-              ></a>
+              <template x-if="item === 'Business' && activeSection === 'login'">
+                <button
+                  @click.prevent="activeSection = 'business'"
+                  class="text-sm text-white hover:text-green-200 px-3 py-1"
+                  x-text="item"
+                ></button>
+              </template>
+              <template x-if="!(item === 'Business' && activeSection === 'login')">
+                <a 
+                  :href="`/${activeSection}/${item.toLowerCase().replace(' ', '-')}`" 
+                  class="text-sm text-white hover:text-green-200 px-3 py-1"
+                  x-text="item"
+                ></a>
+              </template>
             </template>
           </template>
         </div>
@@ -221,6 +231,33 @@
             <a href="/login" class="block text-sm hover:text-green-200">Home</a>
             <a href="/login/profile" class="block text-sm hover:text-green-200">My Profile</a>
             <a href="/login/settings" class="block text-sm hover:text-green-200">Settings</a>
+            <button 
+              @click="activeSection = 'business'"
+              class="block text-sm hover:text-green-200 text-left w-full"
+            >
+              Business →
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <button 
+            @click="activeSection = activeSection === 'business' ? null : 'business'"
+            class="w-full text-left mobile-link hover:text-green-200 flex justify-between items-center font-semibold"
+          >
+            <span>Business</span>
+            <span x-text="activeSection === 'business' ? '−' : '+'"></span>
+          </button>
+          <div 
+            x-show="activeSection === 'business'"
+            x-transition
+            class="ml-4 mt-2 space-y-2"
+          >
+            <a href="/business/profile" class="block text-sm hover:text-green-200">Profile</a>
+            <a href="/business/restaurants" class="block text-sm hover:text-green-200">Restaurants</a>
+            <a href="/business/farmers" class="block text-sm hover:text-green-200">Farmers</a>
+            <a href="/business/real-estate" class="block text-sm hover:text-green-200">Real Estate</a>
+            <a href="/business/settings" class="block text-sm hover:text-green-200">Settings</a>
           </div>
         </div>
 

@@ -1,0 +1,83 @@
+<div x-data="menuManager()" class="menu-container">
+
+  <!-- Header -->
+  <div class="menu-header">
+    <h1 class="menu-title">Menu Items</h1>
+
+    <label class="menu-checkbox">
+      <input
+        type="checkbox"
+        x-model="showDisabled"
+        class="rounded border-gray-300"
+      />
+      Show Disabled
+    </label>
+  </div>
+
+  <!-- Categories -->
+  <template x-for="category in categories" :key="category.name">
+    <section class="menu-category">
+      <h2 class="menu-category-title" x-text="category.name"></h2>
+
+      <div class="menu-table-wrapper">
+        <table class="menu-table">
+          <thead class="menu-thead">
+            <tr>
+              <th class="menu-th">Name</th>
+              <th class="menu-th">Grams</th>
+              <th class="menu-th text-right">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <template
+              x-for="item in filteredItems(category.items)"
+              :key="item.id"
+            >
+              <tr
+                class="menu-row"
+                :class="item.disabled ? 'menu-row-disabled' : ''"
+              >
+                <td class="menu-td" x-text="item.name"></td>
+                <td class="menu-td" x-text="item.grams"></td>
+
+                <td class="menu-actions">
+                  <button
+                    x-show="!item.disabled"
+                    @click="disableItem(item)"
+                    class="btn btn-disable"
+                  >
+                    Disable
+                  </button>
+
+                  <button
+                    x-show="item.disabled"
+                    @click="activateItem(item)"
+                    class="btn btn-activate"
+                  >
+                    Activate
+                  </button>
+
+                  <button
+                    @click="deleteItem(category, item.id)"
+                    class="btn btn-delete"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </template>
+
+  <!-- Back to Top -->
+  <div class="text-center pt-6">
+    <button @click="scrollToTop" class="btn-back-top">
+      ↑ Back to Top
+    </button>
+  </div>
+
+</div>

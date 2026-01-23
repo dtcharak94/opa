@@ -1,0 +1,61 @@
+<!-- Template Container -->
+<div id="review-manager-templates" style="display: none;">
+
+  <!-- Main Component Template -->
+  <template id="reviewManagerTemplate">
+    <div class="container">
+      <div class="header mb-4">
+        <h1>Add Review</h1>
+        <p>Share your dining experience</p>
+      </div>
+
+      <!-- Add Review Form -->
+      <div class="form-card mb-6">
+        <div class="form-group">
+          <label>Menu Item</label>
+          <input type="text" data-field="menu" placeholder="e.g., Truffle Pasta">
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea rows="4" data-field="description" placeholder="Tell us about your experience..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Rating</label>
+          <select data-field="rating">
+            <option value="1">1 Star</option>
+            <option value="2">2 Stars</option>
+            <option value="3" selected>3 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="5">5 Stars</option>
+          </select>
+        </div>
+
+        <button data-action="submit" class="submit-btn mt-2">
+          Submit Review
+        </button>
+      </div>
+
+      <!-- Reviews List -->
+      <div class="reviews-section">
+        <h2>Recent Reviews</h2>
+        <div class="reviews-list mb-4" data-reviews></div>
+        <div class="pagination flex gap-2" data-pagination></div>
+      </div>
+    </div>
+  </template>
+
+  <!-- Review Card Template -->
+  <template id="reviewCardTemplate">
+    <div class="review-card p-4 mb-2 border rounded-lg">
+      <div class="review-header flex justify-between items-center mb-2">
+        <h3 data-menu class="font-semibold"></h3>
+        <div data-stars class="flex gap-1"></div>
+      </div>
+      <p data-description class="mb-1"></p>
+      <p data-date class="text-sm text-gray-500"></p>
+    </div>
+  </template>
+
+</div>

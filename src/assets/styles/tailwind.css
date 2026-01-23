@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@import "./components.css";
+
 @theme {
   --color-bg-brand: #10B981;
 }

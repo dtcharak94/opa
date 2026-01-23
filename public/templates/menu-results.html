@@ -1,0 +1,26 @@
+<template id="menu-result-template">
+  <div class="review-card">
+    <div class="menu-result-header">
+      <div>
+        <h3 data-restaurant></h3>
+        <p data-location></p>
+      </div>
+      <span data-date></span>
+    </div>
+
+    <div class="menu-result-courses">
+      <div class="menu-course"><b>Appetizer:</b> <span data-appetizer></span></div>
+      <div class="menu-course"><b>Main:</b> <span data-main></span></div>
+    </div>
+
+    <!-- Result link -->
+    <div class="mt-4 text-right">
+      <a
+        data-link
+        class="text-sm font-medium text-blue-600 hover:underline"
+      >
+        View menu →
+      </a>
+    </div>
+  </div>
+</template>
